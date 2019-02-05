@@ -6,7 +6,7 @@
         xmlns:properties="clr-namespace:DKExamWPF.Properties"
         xmlns:local="clr-namespace:DKExamWPF"        
         mc:Ignorable="d"
-        Title="FrogCRUD" Height="450" Width="800"
+        Title="FrogCRUD" Height="450" Width="712"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
@@ -28,6 +28,35 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0:0.2" Value="200"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
+        <Storyboard x:Key="HideCard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="InfoCard">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-266"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="ShowCard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="InfoCard">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.2" Value="-266"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Style x:Key="itemCard" TargetType="materialDesign:Card">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=LargeIcons, Path=IsChecked}" Value="True">
+                    <Setter Property="Width" Value="150"></Setter>
+                    <Setter Property="Height" Value="200"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=LargeIcons, Path=IsChecked}" Value="false">
+                    <Setter Property="Width" Value="100"></Setter>
+                    <Setter Property="Height" Value="133"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=generiCard, Path=IsMouseOver}" Value="True">
+                    <Setter Property="Background" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonClose">
@@ -36,6 +65,13 @@
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpen">
             <BeginStoryboard x:Name="OpenMenu_BeginStoryboard" Storyboard="{StaticResource OpenMenu}"></BeginStoryboard>
         </EventTrigger>
+
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonHideCard">
+            <BeginStoryboard x:Name="HideCard_BeginStoryboard" Storyboard="{StaticResource HideCard}"></BeginStoryboard>
+        </EventTrigger>
+        <!--<EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonShowCard">
+            <BeginStoryboard x:Name="ShowCard_BeginStoryboard" Storyboard="{StaticResource ShowCard}"></BeginStoryboard>
+        </EventTrigger>-->
     </Window.Triggers>
     <Window.DataContext>
         <local:MainViewModel></local:MainViewModel>
@@ -74,7 +110,7 @@
                 </Button>
                 <Button Style="{DynamicResource MaterialDesignToolButton}">
                     <StackPanel Orientation="Horizontal" Width="148">
-                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Width="20" Height="20"/>
+                        <materialDesign:PackIcon Kind="DeleteForever" VerticalAlignment="Center" Width="20" Height="20"/>
                         <TextBlock VerticalAlignment="Center" Padding="15" Text="{x:Static properties:Resources.DeleteButton}"/>
                     </StackPanel>
                 </Button>
@@ -85,7 +121,7 @@
                 </DockPanel>
                 <Label Margin="10, 2, 0, 0"  FontSize="10" Foreground="HotPink" Content="{x:Static properties:Resources.Settings}"></Label>
                 <DockPanel Width="148" Height="30">
-                    <ToggleButton Name="LargeIcons" IsChecked="{Binding LargeIcons}" DockPanel.Dock="Right" Background="Pink"/>
+                    <ToggleButton Name="LargeIcons" IsChecked="{Binding LargeIcons}" DockPanel.Dock="Right" Background="Pink"></ToggleButton>
                     <TextBlock VerticalAlignment="Center" FontSize="14" Text="{x:Static properties:Resources.LargeIcons}" Foreground="DimGray"/>
                 </DockPanel>
                 <DockPanel Width="148" Height="30">
@@ -115,7 +151,7 @@
                     <DropShadowEffect BlurRadius="5" Direction="-90" ShadowDepth="2" Opacity=".3"/>
                 </Rectangle.Effect>
                 <Rectangle.Fill>
-                    <SolidColorBrush Color="Pink" />
+                    <SolidColorBrush Color="Pink"/>
                 </Rectangle.Fill>
             </Rectangle>
             <Button Name="ButtonOpen"
@@ -123,27 +159,85 @@
                 Style="{DynamicResource MaterialDesignToolButton}"
                 Content="{materialDesign:PackIcon menu}" Grid.RowSpan="2"></Button>
             <ScrollViewer Grid.Row="2" Grid.ZIndex="1" VerticalScrollBarVisibility="Hidden">
-                <ListBox>
-                    <ListBoxItem>
-                        <materialDesign:Card Width="100" Height="133">
-                            <!--<DataTrigger Binding="{Binding ElementName=LargeIcons, Path=IsChecked}" Value="True">
-                            <Setter Property="Width" Value="150"/>
-                            <Setter Property="Height" Value="200"/>
-                        </DataTrigger>-->
-                            <!--<Trigger Property="{Binding ElementName=LargeIcons, Path=IsChecked}" Value="True">
-                                <Setter Property="Width" Value="150"/>
-                                <Setter Property="Height" Value="200"/>
-                            </Trigger>-->
-                        </materialDesign:Card>
-                    </ListBoxItem>
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                    ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                    <ListBox.ItemsPanel  >
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate >
+                        <DataTemplate>
+                            <materialDesign:Card Name="genericCard" Style="{StaticResource itemCard}">
+                                <materialDesign:Card.Triggers>
+                                    
+                                </materialDesign:Card.Triggers>
+                                <Grid>
+                                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ZIndex="-1"
+                                           Source="{Binding Image}" Stretch="UniformToFill"></Image>
+                                    <WrapPanel FlowDirection="RightToLeft">
+                                        <Button Height="25" Width="25"  IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
+                                        Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}"
+                                        DataContext="{Binding ViewModel}" Command="{Binding DelCommand}"></Button>
+                                        <Button Name="ButtonShowCard" Height="25" Width="25" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
+                                        Style="{DynamicResource MaterialDesignToolButton}"
+                                        Content="{materialDesign:PackIcon edit}">
+                                            <Button.Triggers>
+                                                <!--<EventTrigger RoutedEvent="ButtonBase.Click">
+                                                    <BeginStoryboard x:Name="ShowCard_BeginStoryboard" Storyboard="{StaticResource ShowCard}"></BeginStoryboard>
+                                                </EventTrigger>-->
 
+                                            </Button.Triggers>
+                                        </Button>
+                                    </WrapPanel>
+                                    <TextBlock Grid.ZIndex="1" VerticalAlignment="Bottom" Text="{Binding Manufacturer}"
+                                       Foreground="DimGray" HorizontalAlignment="Center"></TextBlock>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </ScrollViewer>
             <Button Name="AddButton" Grid.ZIndex="2" Grid.Row="2" HorizontalAlignment="Right"
-                VerticalAlignment="Bottom" Margin="0,0,20,20" Background="Pink"
-                    Foreground="DimGray"
-                BorderBrush="Pink" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
-                Content="{materialDesign:PackIcon plus, Size=25}" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}" />
+                    VerticalAlignment="Bottom" Margin="0,0,20,20" Background="Pink"
+                    Foreground="DimGray" Command="{Binding AddCommand}"
+                    BorderBrush="Pink" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
+                    Content="{materialDesign:PackIcon plus, Size=25}" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}" />
         </Grid>
+        <materialDesign:Card Name="InfoCard" Grid.RowSpan="3" Grid.ZIndex="3"
+                                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                                 Margin="0,25,-258,0" Width="250" Height="360" DataContext="{Binding SelectedItem}">
+            <materialDesign:Card.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </materialDesign:Card.RenderTransform>
+            <Grid>
+                <Button Name="ButtonHideCard" HorizontalAlignment="Right" VerticalAlignment="Top" Height="25"
+                            Width="25" Style="{DynamicResource MaterialDesignToolButton}" Grid.ZIndex="3"
+                            Content="{materialDesign:PackIcon close}" Grid.RowSpan="2"></Button>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Image Source="{Binding Image}"></Image>
+                        <TextBlock>
+                                <Run Text="Manufacturer: "></Run>
+                                <Run Text="{Binding Manufacturer}"></Run>
+                        </TextBlock>
+                        <TextBlock>
+                                <Run Text="Model: "></Run>
+                                <Run Text="{Binding Model}"></Run>
+                        </TextBlock>
+                        <DockPanel >
+                            <TextBlock Text="Touchscreen: "></TextBlock>
+                            <CheckBox DockPanel.Dock="Right" Margin="0,0,4,0" Background="Pink"
+                                          IsChecked="{Binding Touchscreen}" HorizontalAlignment="Right"></CheckBox>
+                        </DockPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </materialDesign:Card>
     </Grid>
 </Window>

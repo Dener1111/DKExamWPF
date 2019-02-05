@@ -15,17 +15,21 @@ namespace DKExamWPF
 {
     class MainViewModel
     {
-        public ObservableCollection<Item> Items{get;set;}
+        public ObservableCollection<Item> Items { get; set; }
         public Item SelectedItem { get; set; }
 
         public bool Edit { get; set; } = true;
         public bool LargeIcons { get; set; }
-        public bool DarkTheme{ get; set; }
+        public bool DarkTheme { get; set; }
         public bool English { get; set; }
         public bool Russian { get; set; }
 
         public ICommand EngCommand { get; set; }
         public ICommand RusCommand { get; set; }
+        public ICommand AddCommand { get; set; }
+        public ICommand DelCommand { get; set; }
+
+
 
         public MainViewModel()//IItem
         {
@@ -35,10 +39,20 @@ namespace DKExamWPF
 
             EngCommand = new RelayCommand(x => Utility.ChangeLang("en-US"));
             RusCommand = new RelayCommand(x => Utility.ChangeLang("ru-RU"));
+            AddCommand = new RelayCommand(x => Items.Add(new Item()));
+            DelCommand = new RelayCommand(x => MessageBox.Show("ebas"));
+
+            //SelectedItem = new Item
+            //{
+            //    Image = "http://www.staticwhich.co.uk/media/images/adhoc/sports_car---do-not-delete-444683.jpg",
+            //    Manufacturer = "Ebac inc",
+            //    Model = "model x",
+            //    Touchscreen = true
+            //};
 
             CheckLang();
         }
-        
+
         void CheckLang()
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

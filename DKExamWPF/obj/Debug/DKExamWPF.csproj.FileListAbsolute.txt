@@ -26,4 +26,8 @@ C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\obj\Debug\DKExamWPF.Properties.Resourc
 C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\obj\Debug\DKExamWPF.Properties.Resources.ru-RU.resources
 C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\obj\Debug\en-US\DKExamWPF.resources.dll
 C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\obj\Debug\ru-RU\DKExamWPF.resources.dll
-C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\obj\Debug\DKExamWPF.csprojAssemblyReference.cache
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Newtonsoft.Json.dll
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Ninject.dll
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Newtonsoft.Json.xml
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Ninject.xml

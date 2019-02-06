@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:properties="clr-namespace:DKExamWPF.Properties"
-        xmlns:local="clr-namespace:DKExamWPF"        
+        xmlns:local="clr-namespace:DKExamWPF"
+        xmlns:vm ="clr-namespace:DKExamWPF.Infrastructure"
         mc:Ignorable="d"
         Title="FrogCRUD" Height="450" Width="712"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -75,9 +76,9 @@
         </EventTrigger>-->
     </Window.Triggers>
     <Window.DataContext>
-        <local:MainViewModel></local:MainViewModel>
+        <vm:MainViewModelLocator></vm:MainViewModelLocator>
     </Window.DataContext>
-    <Grid>
+    <Grid DataContext="{Binding MainViewModel}">
         <Grid Name="Menu" Grid.ZIndex="2" HorizontalAlignment="Left" Margin="-200,0,0,0"
               Width="180" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="2">
             <Grid.Effect>
@@ -176,7 +177,7 @@
                                            Source="{Binding Image}" Stretch="UniformToFill"></Image>
                                     <WrapPanel FlowDirection="RightToLeft">
                                         <Button Height="25" Width="25"  IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
-                                                Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}" Command="{Binding DelCommand}"
+                                                Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}" Command="{Binding MainViewModel.DelCommand}"
                                                 DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}, Path=DataContext}"></Button>
                                         <Button Name="ButtonShowCard" Height="25" Width="25" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
                                         Style="{DynamicResource MaterialDesignToolButton}"
@@ -204,7 +205,7 @@
         </Grid>
         <materialDesign:Card Name="InfoCard" Grid.RowSpan="3" Grid.ZIndex="3"
                                  HorizontalAlignment="Right" VerticalAlignment="Center"
-                                 Margin="0,26,0,0" Width="250" Height="380" DataContext="{Binding SelectedItem}">
+                                 Margin="0,26,-258,0" Width="250" Height="380" DataContext="{Binding SelectedItem}">
             <!-- -258 -->
             <materialDesign:Card.RenderTransform>
                 <TransformGroup>

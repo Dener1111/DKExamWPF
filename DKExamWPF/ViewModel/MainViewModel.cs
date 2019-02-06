@@ -39,39 +39,43 @@ namespace DKExamWPF
             }
         }
 
+        ISaveData saveData;
+        ISaveSettings saveSettings;
+
         public bool Edit { get; set; } = true;
         public bool LargeIcons { get; set; }
         public bool DarkTheme { get; set; }
         public bool English { get; set; }
         public bool Russian { get; set; }
 
+        #region commands
+        public ICommand LoadCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+        public ICommand DelAllCommand { get; set; }
+
         public ICommand EngCommand { get; set; }
         public ICommand RusCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand DelCommand { get; set; }
-        public ICommand DelAllCommand { get; set; }
+        #endregion
 
-        public MainViewModel()//IItem
+        public MainViewModel(ISaveData sd, ISaveSettings ss)
         {
-            Items = new ObservableCollection<Item>();
-
+            saveData = sd;
+            saveSettings = ss;
+            
             Properties.Resources.Culture = new CultureInfo(ConfigurationManager.AppSettings["Culture"]);
-
-            var dialogContent = new TextBlock
-            {
-                Text = "Dynamic Dialog!",
-                Margin = new Thickness(20)
-            };
+            
+            DelAllCommand = new RelayCommand(x => Items.Clear());
 
             EngCommand = new RelayCommand(x => Utility.ChangeLang("en-US"));
             RusCommand = new RelayCommand(x => Utility.ChangeLang("ru-RU"));
             AddCommand = new RelayCommand(x => Items.Add(new Item()));
             DelCommand = new RelayCommand(x => Items.Remove(SelectedItem));
-            DelAllCommand = new RelayCommand(x => Items.Clear());
-
-            CheckLang();
+            
+            Items = new ObservableCollection<Item>();
         }
-        void CheckLang()//TODO: delete and redo normalno
+        void CheckLang_Obsolete()//TODO: delete and redo normalno
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             if (config.AppSettings.Settings["Culture"].Value == "en-US")

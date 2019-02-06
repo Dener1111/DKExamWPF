@@ -70,6 +70,78 @@ namespace DKExamWPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Battary.
+        /// </summary>
+        public static string CardBattary {
+            get {
+                return ResourceManager.GetString("CardBattary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPU.
+        /// </summary>
+        public static string CardCPU {
+            get {
+                return ResourceManager.GetString("CardCPU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GPU.
+        /// </summary>
+        public static string CardGPU {
+            get {
+                return ResourceManager.GetString("CardGPU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Headphone Jack.
+        /// </summary>
+        public static string CardHeadphoneJack {
+            get {
+                return ResourceManager.GetString("CardHeadphoneJack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string CardImage {
+            get {
+                return ResourceManager.GetString("CardImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manufacturer.
+        /// </summary>
+        public static string CardManufacturer {
+            get {
+                return ResourceManager.GetString("CardManufacturer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model.
+        /// </summary>
+        public static string CardModel {
+            get {
+                return ResourceManager.GetString("CardModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Touchscreen.
+        /// </summary>
+        public static string CardTouchscreen {
+            get {
+                return ResourceManager.GetString("CardTouchscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dark Theme.
         /// </summary>
         public static string DarkTheme {

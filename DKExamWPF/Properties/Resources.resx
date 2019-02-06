@@ -120,6 +120,30 @@
   <data name="Admin" xml:space="preserve">
     <value>ADMIN</value>
   </data>
+  <data name="CardBattary" xml:space="preserve">
+    <value>Battary</value>
+  </data>
+  <data name="CardCPU" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="CardGPU" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="CardHeadphoneJack" xml:space="preserve">
+    <value>Headphone Jack</value>
+  </data>
+  <data name="CardImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="CardManufacturer" xml:space="preserve">
+    <value>Manufacturer</value>
+  </data>
+  <data name="CardModel" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="CardTouchscreen" xml:space="preserve">
+    <value>Touchscreen</value>
+  </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Dark Theme</value>
   </data>

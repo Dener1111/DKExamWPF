@@ -120,6 +120,30 @@
   <data name="Admin" xml:space="preserve">
     <value>АДМИН</value>
   </data>
+  <data name="CardBattary" xml:space="preserve">
+    <value>Батарея</value>
+  </data>
+  <data name="CardCPU" xml:space="preserve">
+    <value>ЦП</value>
+  </data>
+  <data name="CardGPU" xml:space="preserve">
+    <value>ГПУ</value>
+  </data>
+  <data name="CardHeadphoneJack" xml:space="preserve">
+    <value>Джек для наушников</value>
+  </data>
+  <data name="CardImage" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="CardManufacturer" xml:space="preserve">
+    <value>Производитель</value>
+  </data>
+  <data name="CardModel" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="CardTouchscreen" xml:space="preserve">
+    <value>Тачскрин</value>
+  </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Тёмная Тема</value>
   </data>

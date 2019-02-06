@@ -57,6 +57,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonClose">
@@ -108,7 +109,7 @@
                         <TextBlock VerticalAlignment="Center" Padding="15" Text="{x:Static properties:Resources.SaveButton}"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding DelAllCommand}">
                     <StackPanel Orientation="Horizontal" Width="148">
                         <materialDesign:PackIcon Kind="DeleteForever" VerticalAlignment="Center" Width="20" Height="20"/>
                         <TextBlock VerticalAlignment="Center" Padding="15" Text="{x:Static properties:Resources.DeleteButton}"/>
@@ -154,12 +155,13 @@
                     <SolidColorBrush Color="Pink"/>
                 </Rectangle.Fill>
             </Rectangle>
+
             <Button Name="ButtonOpen"
                 HorizontalAlignment="Left" Height="25" Width="25"
                 Style="{DynamicResource MaterialDesignToolButton}"
-                Content="{materialDesign:PackIcon menu}" Grid.RowSpan="2"></Button>
-            <ScrollViewer Grid.Row="2" Grid.ZIndex="1" VerticalScrollBarVisibility="Hidden">
-                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                Content="{materialDesign:PackIcon menu}" Grid.RowSpan="2"/>
+            <ScrollViewer Grid.Row="2" Grid.ZIndex="1" VerticalScrollBarVisibility="Hidden" >
+                <ListBox Name="CardsListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
                     <ListBox.ItemsPanel  >
                         <ItemsPanelTemplate>
@@ -169,16 +171,13 @@
                     <ListBox.ItemTemplate >
                         <DataTemplate>
                             <materialDesign:Card Name="genericCard" Style="{StaticResource itemCard}">
-                                <materialDesign:Card.Triggers>
-                                    
-                                </materialDesign:Card.Triggers>
                                 <Grid>
                                     <Image VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ZIndex="-1"
                                            Source="{Binding Image}" Stretch="UniformToFill"></Image>
                                     <WrapPanel FlowDirection="RightToLeft">
                                         <Button Height="25" Width="25"  IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
-                                        Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}"
-                                        DataContext="{Binding ViewModel}" Command="{Binding DelCommand}"></Button>
+                                                Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}" Command="{Binding DelCommand}"
+                                                DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}, Path=DataContext}"></Button>
                                         <Button Name="ButtonShowCard" Height="25" Width="25" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
                                         Style="{DynamicResource MaterialDesignToolButton}"
                                         Content="{materialDesign:PackIcon edit}">
@@ -186,7 +185,6 @@
                                                 <!--<EventTrigger RoutedEvent="ButtonBase.Click">
                                                     <BeginStoryboard x:Name="ShowCard_BeginStoryboard" Storyboard="{StaticResource ShowCard}"></BeginStoryboard>
                                                 </EventTrigger>-->
-
                                             </Button.Triggers>
                                         </Button>
                                     </WrapPanel>
@@ -206,7 +204,8 @@
         </Grid>
         <materialDesign:Card Name="InfoCard" Grid.RowSpan="3" Grid.ZIndex="3"
                                  HorizontalAlignment="Right" VerticalAlignment="Center"
-                                 Margin="0,25,-258,0" Width="250" Height="360" DataContext="{Binding SelectedItem}">
+                                 Margin="0,26,0,0" Width="250" Height="380" DataContext="{Binding SelectedItem}">
+            <!-- -258 -->
             <materialDesign:Card.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -222,18 +221,61 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <Image Source="{Binding Image}"></Image>
-                        <TextBlock>
-                                <Run Text="Manufacturer: "></Run>
-                                <Run Text="{Binding Manufacturer}"></Run>
-                        </TextBlock>
-                        <TextBlock>
-                                <Run Text="Model: "></Run>
-                                <Run Text="{Binding Model}"></Run>
-                        </TextBlock>
-                        <DockPanel >
-                            <TextBlock Text="Touchscreen: "></TextBlock>
+                        <WrapPanel >
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardImage}"></Run>
+                                <Run Text=": "></Run>
+                            </TextBlock>
+                            <TextBox Text="{Binding Image}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardManufacturer}"></Run>
+                                <Run Text=": "></Run>
+                            </TextBlock>
+                            <TextBox Text="{Binding Manufacturer}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardModel}"></Run>
+                                <Run Text=": "></Run>
+                            </TextBlock>
+                            <TextBox Text="{Binding Model}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardCPU}"></Run>
+                                <Run Text=": "></Run>
+                            </TextBlock>
+                            <TextBox Text="{Binding CPU}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardGPU}"></Run>
+                                <Run Text=": "></Run>
+                            </TextBlock>
+                            <TextBox Text="{Binding GPU}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardBattary}"></Run>
+                                <Run Text=": "></Run>
+                            </TextBlock>
+                            <TextBox Text="{Binding Battary}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                        </WrapPanel>
+                        <DockPanel Margin="0,5,0,0">
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardTouchscreen}"></Run>
+                            </TextBlock>
                             <CheckBox DockPanel.Dock="Right" Margin="0,0,4,0" Background="Pink"
                                           IsChecked="{Binding Touchscreen}" HorizontalAlignment="Right"></CheckBox>
+                        </DockPanel>
+                        <DockPanel Margin="0,10,0,0">
+                            <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
+                                <Run Text="{x:Static properties:Resources.CardHeadphoneJack}"></Run>
+                            </TextBlock>
+                            <CheckBox DockPanel.Dock="Right" Margin="0,0,4,0" Background="Pink"
+                                          IsChecked="{Binding HeadphoneJack}" HorizontalAlignment="Right"></CheckBox>
                         </DockPanel>
                     </StackPanel>
                 </ScrollViewer>

@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace DKExamWPF.Infrastructure
 {
-    interface ISaveData
+    class Data
     {
-        void Save(Data s);
-        Data Load();
+        public ObservableCollection<Item> Items { get; set; }
+        public Data(ObservableCollection<Item> items)
+        {
+            Items = items;
+        }
     }
 }

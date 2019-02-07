@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:DKExamWPF"
         xmlns:vm ="clr-namespace:DKExamWPF.Infrastructure"
         mc:Ignorable="d"
-        Title="FrogCRUD" Height="450" Width="712"
+        Height="450" Width="712"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
@@ -71,14 +71,14 @@
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonHideCard">
             <BeginStoryboard x:Name="HideCard_BeginStoryboard" Storyboard="{StaticResource HideCard}"></BeginStoryboard>
         </EventTrigger>
-        <!--<EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonShowCard">
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonShowCard">
             <BeginStoryboard x:Name="ShowCard_BeginStoryboard" Storyboard="{StaticResource ShowCard}"></BeginStoryboard>
-        </EventTrigger>-->
+        </EventTrigger>
     </Window.Triggers>
     <Window.DataContext>
         <vm:MainViewModelLocator></vm:MainViewModelLocator>
     </Window.DataContext>
-    <Grid DataContext="{Binding MainViewModel}">
+    <Grid Name="mainGrid" DataContext="{Binding MainViewModel}">
         <Grid Name="Menu" Grid.ZIndex="2" HorizontalAlignment="Left" Margin="-200,0,0,0"
               Width="180" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="2">
             <Grid.Effect>
@@ -98,13 +98,13 @@
                     Style="{DynamicResource MaterialDesignToolButton}"
                     Content="{materialDesign:PackIcon Close}" />
             <StackPanel Margin="0,25,0,0" >
-                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding LoadCommand}">
                     <StackPanel Orientation="Horizontal" Width="148">
                         <materialDesign:PackIcon Kind="FolderOpen" VerticalAlignment="Center" Width="20" Height="20"/>
                         <TextBlock VerticalAlignment="Center" Padding="15" Text="{x:Static properties:Resources.OpenButton}"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding SaveCommand}">
                     <StackPanel Orientation="Horizontal" Width="148">
                         <materialDesign:PackIcon  Kind="ContentSave"  VerticalAlignment="Center" Width="20" Height="20"/>
                         <TextBlock VerticalAlignment="Center" Padding="15" Text="{x:Static properties:Resources.SaveButton}"/>
@@ -127,7 +127,7 @@
                     <TextBlock VerticalAlignment="Center" FontSize="14" Text="{x:Static properties:Resources.LargeIcons}" Foreground="DimGray"/>
                 </DockPanel>
                 <DockPanel Width="148" Height="30">
-                    <ToggleButton IsChecked="{Binding DarkTheme}" DockPanel.Dock="Right" Background="Pink"></ToggleButton>
+                    <ToggleButton IsChecked="{Binding DarkTheme}" DockPanel.Dock="Right" Background="Pink" Command="{Binding DarkThemeCommand}"></ToggleButton>
                     <TextBlock VerticalAlignment="Center" FontSize="14" Text="{x:Static properties:Resources.DarkTheme}" Foreground="DimGray"/>
                 </DockPanel>
                 <DockPanel Width="148" Height="30">
@@ -156,6 +156,20 @@
                     <SolidColorBrush Color="Pink"/>
                 </Rectangle.Fill>
             </Rectangle>
+            <ComboBox Name="sortCombpBox" Grid.RowSpan="2" Width="120" Height="25"
+                      HorizontalAlignment="Right" SelectedIndex="0" Foreground="DimGray">
+                <ComboBoxItem Content="{x:Static properties:Resources.CardManufacturer}"></ComboBoxItem>
+                <ComboBoxItem Content="{x:Static properties:Resources.CardModel}"></ComboBoxItem>
+                <ComboBoxItem Content="{x:Static properties:Resources.CardCPU}"></ComboBoxItem>
+                <ComboBoxItem Content="{x:Static properties:Resources.CardGPU}"></ComboBoxItem>
+                <ComboBoxItem Content="{x:Static properties:Resources.CardBattary}"></ComboBoxItem>
+                <ComboBoxItem Content="{x:Static properties:Resources.CardTouchscreen}"></ComboBoxItem>
+                <ComboBoxItem Content="{x:Static properties:Resources.CardHeadphoneJack}"></ComboBoxItem>
+            </ComboBox>
+            <Button HorizontalAlignment="Right" Margin="0,0,120,0" Height="25" Width="25"
+                    Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding SortCommand}"
+                    Content="{materialDesign:PackIcon sort}" Grid.RowSpan="2"
+                    CommandParameter="{Binding ElementName=sortCombpBox, Path=SelectedIndex}"></Button>
 
             <Button Name="ButtonOpen"
                 HorizontalAlignment="Left" Height="25" Width="25"
@@ -177,17 +191,11 @@
                                            Source="{Binding Image}" Stretch="UniformToFill"></Image>
                                     <WrapPanel FlowDirection="RightToLeft">
                                         <Button Height="25" Width="25"  IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
-                                                Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}" Command="{Binding MainViewModel.DelCommand}"
-                                                DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}, Path=DataContext}"></Button>
-                                        <Button Name="ButtonShowCard" Height="25" Width="25" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
+                                                Style="{DynamicResource MaterialDesignToolButton}" Content="{materialDesign:PackIcon delete}" Command="{Binding DelCommand}"
+                                                DataContext="{Binding ElementName=mainGrid, Path=DataContext}"></Button>
+                                        <!--<Button Name="ButtonShowCard" Height="25" Width="25" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"
                                         Style="{DynamicResource MaterialDesignToolButton}"
-                                        Content="{materialDesign:PackIcon edit}">
-                                            <Button.Triggers>
-                                                <!--<EventTrigger RoutedEvent="ButtonBase.Click">
-                                                    <BeginStoryboard x:Name="ShowCard_BeginStoryboard" Storyboard="{StaticResource ShowCard}"></BeginStoryboard>
-                                                </EventTrigger>-->
-                                            </Button.Triggers>
-                                        </Button>
+                                        Content="{materialDesign:PackIcon edit}"></Button>-->
                                     </WrapPanel>
                                     <TextBlock Grid.ZIndex="1" VerticalAlignment="Bottom" Text="{Binding Manufacturer}"
                                        Foreground="DimGray" HorizontalAlignment="Center"></TextBlock>
@@ -197,11 +205,16 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </ScrollViewer>
+            <!--IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}"-->
+
+            <Button Grid.ZIndex="2" Grid.Row="2" DockPanel.Dock="Right" Name="ButtonShowCard" Height="Auto" Width="5" 
+                    HorizontalAlignment="Right"  Background="#7FFFC0CB" BorderBrush="#7FFFC0CB"></Button>
             <Button Name="AddButton" Grid.ZIndex="2" Grid.Row="2" HorizontalAlignment="Right"
                     VerticalAlignment="Bottom" Margin="0,0,20,20" Background="Pink"
                     Foreground="DimGray" Command="{Binding AddCommand}"
                     BorderBrush="Pink" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
                     Content="{materialDesign:PackIcon plus, Size=25}" IsEnabled="{Binding ElementName=CanEdit, Path=IsChecked}" />
+         
         </Grid>
         <materialDesign:Card Name="InfoCard" Grid.RowSpan="3" Grid.ZIndex="3"
                                  HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -227,42 +240,42 @@
                                 <Run Text="{x:Static properties:Resources.CardImage}"></Run>
                                 <Run Text=": "></Run>
                             </TextBlock>
-                            <TextBox Text="{Binding Image}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                            <TextBox Text="{Binding Image}" Width="150" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
                         </WrapPanel>
                         <WrapPanel>
                             <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
                                 <Run Text="{x:Static properties:Resources.CardManufacturer}"></Run>
                                 <Run Text=": "></Run>
                             </TextBlock>
-                            <TextBox Text="{Binding Manufacturer}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                            <TextBox Text="{Binding Manufacturer}" Width="150"  CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
                         </WrapPanel>
                         <WrapPanel>
                             <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
                                 <Run Text="{x:Static properties:Resources.CardModel}"></Run>
                                 <Run Text=": "></Run>
                             </TextBlock>
-                            <TextBox Text="{Binding Model}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                            <TextBox Text="{Binding Model}" Width="150"  CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
                         </WrapPanel>
                         <WrapPanel>
                             <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
                                 <Run Text="{x:Static properties:Resources.CardCPU}"></Run>
                                 <Run Text=": "></Run>
                             </TextBlock>
-                            <TextBox Text="{Binding CPU}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                            <TextBox Text="{Binding CPU}" Width="150"  CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
                         </WrapPanel>
                         <WrapPanel>
                             <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
                                 <Run Text="{x:Static properties:Resources.CardGPU}"></Run>
                                 <Run Text=": "></Run>
                             </TextBlock>
-                            <TextBox Text="{Binding GPU}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                            <TextBox Text="{Binding GPU}" Width="150"  CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
                         </WrapPanel>
                         <WrapPanel>
                             <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">
                                 <Run Text="{x:Static properties:Resources.CardBattary}"></Run>
                                 <Run Text=": "></Run>
                             </TextBlock>
-                            <TextBox Text="{Binding Battary}" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
+                            <TextBox Text="{Binding Battary}" Width="150" CaretBrush="{x:Null}" BorderBrush="{x:Null}"/>
                         </WrapPanel>
                         <DockPanel Margin="0,5,0,0">
                             <TextBlock FontWeight="SemiBold"  VerticalAlignment="Center">

@@ -13,8 +13,20 @@ namespace DKExamWPF.Model
         public string Model { get; set; }
         public string CPU { get; set; }
         public string GPU { get; set; }
-        public string Battary { get; set; }
+        public int Battary { get; set; }
         public bool Touchscreen { get; set; }
         public bool PhoneJack { get; set; }
+
+        //public Item(string image = "", string manufacturer = "", string model = "", string cpu = "", string gpu = "", int battary = 0, bool touch = false, bool jack = false)
+        //{
+        //    Image = image;
+        //    Manufacturer = manufacturer;
+        //    Model = model;
+        //    CPU = cpu;
+        //    GPU = gpu;
+        //    Battary = battary;
+        //    Touchscreen = touch;
+        //    PhoneJack = jack;
+        //}
     }
 }

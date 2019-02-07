@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DKExamWPF.Model;
+using Newtonsoft.Json;
 
 namespace DKExamWPF.Infrastructure
 {
@@ -10,12 +13,34 @@ namespace DKExamWPF.Infrastructure
     {
         public Settings Load()
         {
-            throw new NotImplementedException();
+            try
+            {
+                Settings des = new Settings();
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+
+                using (StreamReader sr = new StreamReader(@"config.json"))
+                using (JsonReader reader = new JsonTextReader(sr))
+                    des = serializer.Deserialize<Settings>(reader);
+
+                return des;
+            }
+            catch (Exception)
+            {
+                return new Settings();
+            }
         }
 
         public void Save(Settings s)
         {
-            throw new NotImplementedException();
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(@"config.json"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, s);
+            }
         }
     }
 }

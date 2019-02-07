@@ -76,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\Data.cs" />
     <Compile Include="Infrastructure\JSONSaveData.cs" />
     <Compile Include="Infrastructure\JSONSaveSettings.cs" />
     <Compile Include="Infrastructure\Modules\SaveDataModule.cs" />

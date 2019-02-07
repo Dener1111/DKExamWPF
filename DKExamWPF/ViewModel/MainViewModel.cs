@@ -42,7 +42,7 @@ namespace DKExamWPF
         ISaveData saveData;
         ISaveSettings saveSettings;
 
-        public bool Edit { get; set; } = true;
+        public bool Edit { get; set; }
         public bool LargeIcons { get; set; }
         public bool DarkTheme { get; set; }
         public bool English { get; set; }

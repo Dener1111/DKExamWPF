@@ -65,3 +65,8 @@ C:\Users\DUFF\Downloads\DKExamWPF-Development\DKExamWPF\obj\Debug\ru-RU\DKExamWP
 C:\Users\DUFF\Downloads\DKExamWPF-Development\DKExamWPF\obj\Debug\DKExamWPF.csproj.CopyComplete
 C:\Users\DUFF\Downloads\DKExamWPF-Development\DKExamWPF\obj\Debug\DKExamWPF.exe
 C:\Users\DUFF\Downloads\DKExamWPF-Development\DKExamWPF\obj\Debug\DKExamWPF.pdb
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Microsoft.Expression.Interactions.dll
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\Microsoft.Expression.Interactions.xml
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\DUFF\Desktop\DKExamWPF\DKExamWPF\obj\Debug\DKExamWPF.csprojAssemblyReference.cache

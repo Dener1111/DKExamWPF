@@ -70,6 +70,8 @@ namespace DKExamWPF
             saveData = sd;
             saveSettings = ss;
             
+            Items = new ObservableCollection<Item>();
+
             Properties.Resources.Culture = new CultureInfo(ConfigurationManager.AppSettings["Culture"]);
             
             DelAllCommand = new RelayCommand(x => Items.Clear());
@@ -84,10 +86,10 @@ namespace DKExamWPF
             DelCommand = new RelayCommand(x => Items.Remove(SelectedItem));
 
             SortCommand = new RelayCommand(Sort);
-            
-            //CloseCommand = new RelayCommand(x => )
 
-            Items = new ObservableCollection<Item>();
+            CloseCommand = new RelayCommand(x => ss.Save(new Settings(Edit, LargeIcons, DarkTheme, English, Russian)));
+
+            SetSettings(ss.Load());
         }
         void CheckLang_Obsolete()//TODO: delete and redo normalno
         {
@@ -96,6 +98,15 @@ namespace DKExamWPF
                 English = true;
             else
                 Russian = true;
+        }
+        
+        void SetSettings(Settings set)
+        {
+            Edit = set.Edit;
+            LargeIcons = set.LargeIcons;
+            DarkTheme = set.DarkTheme;
+            English = set.English;
+            Russian = set.Russian;
         }
 
         void Sort(object a)

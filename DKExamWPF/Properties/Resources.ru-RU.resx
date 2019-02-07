@@ -136,7 +136,7 @@
     <value>Фото</value>
   </data>
   <data name="CardManufacturer" xml:space="preserve">
-    <value>Производитель</value>
+    <value>Изготовитель</value>
   </data>
   <data name="CardModel" xml:space="preserve">
     <value>Модель</value>
